@@ -1,6 +1,8 @@
 import React from 'react';
 
-const FilterBar=({filter,setFilter})=>{
+const FilterBar=({filter,setFilter})=>{ //this component filter the tasks
+  //three buttons are created(all,completed,pending) and when we click on the specific button then that button will get activate and according to css designing
+  //its styling will get changed
     return (
         <div style={{marginBottom:'20px'}}>
             <button onClick={()=>setFilter("all")} 

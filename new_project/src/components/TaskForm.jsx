@@ -5,12 +5,12 @@ const TaskForm=({onAdd})=>{
 
     const handleSubmit=(e)=>{
         e.preventDefault();
-        if(title.trim()==="")return;
+        if(title.trim()==="")return; //if title is empty then it will return(dont do anything)
 
         const newTask={
             id:Date.now(),
             title,
-            completed: false,
+            completed: false, //by default task completion is set to false
         };
         onAdd(newTask);
         setTitle("");

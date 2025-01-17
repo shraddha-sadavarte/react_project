@@ -2,7 +2,7 @@ import React from 'react';
 
 const TaskList=({tasks,onUpdate,onDelete})=>{
     const toggleCompletion=(task)=>{
-        onUpdate({...task,completed:!task.completed})
+        onUpdate({...task,completed:!task.completed}) 
     };
 
     return (
@@ -23,7 +23,9 @@ const TaskList=({tasks,onUpdate,onDelete})=>{
                   textDecoration: task.completed ? "line-through" : "none",
                   cursor: "pointer",
                 }}
-                onClick={() => toggleCompletion(task)}
+                onClick={() => toggleCompletion(task)} //call togglecompletion function and do ->
+                                                       //when user click on task its value gets changed from text true->false or false->true
+                                                       //(means strikethrough->none or none->strikethrough)
               >
                 {task.title}
               </span>

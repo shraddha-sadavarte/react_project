@@ -10,7 +10,7 @@ const App=()=> {
 
   //Load tasks from localstorage on intial render
   useEffect(()=>{
-    const storedTaks=JSON.parse(localStorage.getItem("tasks"));
+    const storedTaks=JSON.parse(localStorage.getItem("tasks")); //if tasks are already saved in local storage then it can fetched from localstorage
     if(storedTaks) setTasks(storedTaks);
   },[]);
 
@@ -20,15 +20,16 @@ const App=()=> {
   },[tasks]);
 
   const addTask=(task)=>{
-    setTasks([...tasks,task])
+    setTasks([...tasks,task]) //new task is added to the list at the end and copy the original task format by using ...tasks
   };
 
   const updateTask=(updatedTask)=>{
-    setTasks(tasks.map((task)=>(task.id===updatedTask.id ? updatedTask:task)));
+    setTasks(tasks.map((task)=>(task.id===updatedTask.id ? updatedTask:task))); //task gets update based on id and if updatedtask.id and originaltask.id
+                                                                                //is matched then only the task is update otherwise it remains same
   };
 
   const deleteTask=(id)=>{
-    setTasks(tasks.filter((task)=>task.id!==id))
+    setTasks(tasks.filter((task)=>task.id!==id)) //filters the task based on id provided if task.id and provided id is matched then task get deleted
   };
 
   const filteredTasks=tasks.filter((task)=>{
