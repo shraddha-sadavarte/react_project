@@ -1,0 +1,21 @@
+.project-container {
+    padding: 20px;
+    max-width: 600px;
+    margin: auto;
+  }
+  
+  .project-container input {
+    padding: 8px;
+    width: 80%;
+  }
+  
+  .task-form input {
+    padding: 8px;
+    width: 70%;
+  }
+  
+  .task-form button {
+    padding: 8px;
+    margin-left: 10px;
+  }
+  

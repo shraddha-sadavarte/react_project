@@ -1,0 +1,22 @@
+.dashboard-container{
+    padding: 20px;
+    max-width: 600px;
+    margin: auto;
+}
+
+.project-form input{
+    padding: 8px;
+    width: 70%;
+}
+
+.project-form button{
+    padding: 8px;
+    margin-left: 10px;
+}
+
+.project-list li{
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
