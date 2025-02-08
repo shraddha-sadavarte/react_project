@@ -1,74 +1,59 @@
-import React, { useEffect, useState } from "react";
-import "../Styles/Dashboard.css"
-import { Link } from "react-router-dom";
-import axios from "axios";
+import React, { useState, useEffect } from "react";
+import { getProjects, createProject, deleteProject } from "../api";
+import "../Styles/Dashboard.css";
 
 const Dashboard = () => {
-    
-    const[projects,setProjects]=useState([]);
-    const[newProject,setNewProject]=useState("");
+  const [projects, setProjects] = useState([]);
+  const [newProject, setNewProject] = useState({ name: "", description: "" });
 
-    //fetch projects from API
-    useEffect(()=>{
-        const fetchProjects = async () => {
-            try{
-                const response = await axios.get("/api/projects");
-               // console.log("Api response: ",response.data);
-                setProjects(response.data);
-            } catch (error) {
-                console.error ("Error fetching projects: ",error);
-                setProjects([]);
-            }
-        };
-
-        fetchProjects();
-    },[]);
-
-    //create a new project
-    const createProject = async () => {
-        if(!newProject) return;
-        try{
-            const response = await axios.post("/api/projects",{name:newProject});
-            setProjects([...projects,response.data]); //add new project to state
-            setNewProject(""); //clear input
-        } catch(error){
-            console.error("Error creating project: ",error);
-        }
+  useEffect(() => {
+    const fetchProjects = async () => {
+      const data = await getProjects();
+      setProjects(data);
     };
+    fetchProjects();
+  }, []);
 
-    const handleDeleteProject = async (id) => {
-        try{
-            await axios.delete(`api/projects/$id`);
-            setProjects(projects.filter((project) => project.id !== id));
-        } catch(error){
-            console.error("Error deleting project: ",error)
-        }
-    };
+  const handleCreate = async () => {
+    if (!newProject.name) return;
+    const project = await createProject(newProject);
+    setProjects([...projects, project]);
+    setNewProject({ name: "", description: "" });
+  };
 
-    return(
-        <div className="dashboard-container">
-            <h2>Project Dashboard</h2>
+  const handleDelete = async (id) => {
+    await deleteProject(id);
+    setProjects(projects.filter((p) => p._id !== id));
+  };
 
-            <div className="project-form">
-                <input 
-                  type="text"
-                  placeholder="New Project Name"
-                  value={newProject}
-                  onChange={(e)=>setNewProject(e.target.value)}
-                />
-                <button onClick={createProject}>Create Project</button>
-            </div>
-
-            <ul className="project-list">
-                {projects.map((project) => (
-                    <li key={project.id}>
-                        <Link to={`/project/${project.id}`}>{project.name}</Link>
-                        <button onClick={() => handleDeleteProject(project.id)}>Delete</button>
-                    </li>
-               ))}
-            </ul>
-        </div>
-    )
-}
+  return (
+    <div className="dashboard-container">
+      <h2>Project Dashboard</h2>
+      <div className="project-form">
+        <input
+          type="text"
+          placeholder="Project Name"
+          value={newProject.name}
+          onChange={(e) => setNewProject({ ...newProject, name: e.target.value })}
+        />
+        <input
+          type="text"
+          placeholder="Description"
+          value={newProject.description}
+          onChange={(e) => setNewProject({ ...newProject, description: e.target.value })}
+        />
+        <button onClick={handleCreate}>Create Project</button>
+      </div>
+      <ul className="project-list">
+        {projects.map((project) => (
+          <li key={project._id} className="project-item">
+            {project.name} - {project.description}
+            <button onClick={() => handleDelete(project._id)}>Delete</button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
 
 export default Dashboard;
